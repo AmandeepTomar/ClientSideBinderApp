@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.*
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.amandeep.clientsidebinderapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private var isBind=false
     private val GET_RANDOM_NO_FLAG=0
     private var randomNumberValue=0
+    private var count =0
 
     //
     private var randomNoRequestMessenger:Messenger?=null
@@ -31,10 +32,15 @@ class MainActivity : AppCompatActivity() {
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        serviceIntent= Intent().apply {
-            component = ComponentName("com.amandeep.androdservicedemo","com.amandeep.androdservicedemo.bindingbetweentwoaaps.ServerSideService")
+//        serviceIntent= Intent().apply {
+//            component = ComponentName("com.amandeep.androdservicedemo","com.amandeep.androdservicedemo.bindingbetweentwoaaps.ServerSideService")
+//
+//        }
 
-        }
+        val intent = Intent("AIDLService")
+        intent.setPackage("com.amandeep.androdservicedemo")
+
+        bindService(intent, AIDLClientService.aidlServiceComponent, BIND_AUTO_CREATE)
 
         handlingClickEvents()
 
@@ -82,7 +88,15 @@ class MainActivity : AppCompatActivity() {
                 fetchRandomNumber()
         }
 
+        binding.btnAIDLService.setOnClickListener {
+         Intent(this,AIDLImplActivity::class.java).also {
+             startActivity(it)
+         }
+
+        }
+
     }
+
 
     private fun fetchRandomNumber() {
         if (isBind){
@@ -100,7 +114,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun bindServiceHere() {
-        serviceConnection?.let { bindService(serviceIntent, it,Context.BIND_AUTO_CREATE) }
+        serviceConnection?.let { serviceIntent?.let { it1 -> bindService(it1, it,Context.BIND_AUTO_CREATE) } }
     }
 
 

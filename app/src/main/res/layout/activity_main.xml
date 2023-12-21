@@ -44,4 +44,15 @@
         android:text="@string/get_random_number"
         android:id="@+id/btnGetRandomNumber"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:layout_marginTop="@dimen/_10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnGetRandomNumber"
+        android:text="Start Remote Service usingAIDL"
+        android:id="@+id/btnAIDLService"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
